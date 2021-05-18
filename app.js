@@ -44,6 +44,7 @@ var bot = new Client();
 bot.login(process.env.BOT_TOKEN);
 //Music bot
 var Quim = require("./comandos/Quim");
+var LyriksClient = require("lyriks.js").LyriksClient;
 //Banking bot
 var BancoAPI = require("./comandos/Banco");
 var Banco = new BancoAPI.Banco();
@@ -100,7 +101,7 @@ bot.on("ready", function () {
     console.log("Nome: " + bot.user.username + "\nTag: " + bot.user.tag);
 });
 bot.on("message", function (message) { return __awaiter(_this, void 0, void 0, function () {
-    var song, section, reply, reply, info, games_1, channelID, reply, reply;
+    var song, song, song, song, page, song, section, reply, reply, info, games_1, channelID, reply, reply;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -115,35 +116,76 @@ bot.on("message", function (message) { return __awaiter(_this, void 0, void 0, f
                 Quim.play(message, song);
                 return [2 /*return*/];
             case 1:
-                if (!message.content.startsWith(prefix + "skip")) return [3 /*break*/, 2];
-                Quim.skip(message);
+                if (!message.content.startsWith(prefix + "playnext")) return [3 /*break*/, 2];
+                song = message.content.replace(prefix + "playnext ", "");
+                Quim.playnext(message, song);
                 return [2 /*return*/];
             case 2:
-                if (!message.content.startsWith(prefix + "stop")) return [3 /*break*/, 3];
-                Quim.stop(message);
+                if (!message.content.startsWith(prefix + "playnow")) return [3 /*break*/, 3];
+                song = message.content.replace(prefix + "playnow ", "");
+                Quim.playnow(message, song);
                 return [2 /*return*/];
             case 3:
-                if (!message.content.startsWith(prefix + "seek")) return [3 /*break*/, 4];
-                Quim.seek(message, message.content.split(" ")[1]);
+                if (!message.content.startsWith(prefix + "stop")) return [3 /*break*/, 4];
+                Quim.stop(message);
                 return [2 /*return*/];
             case 4:
-                if (!message.content.startsWith(prefix + "loop")) return [3 /*break*/, 5];
-                Quim.loop(message);
+                if (!message.content.startsWith(prefix + "info")) return [3 /*break*/, 5];
+                Quim.info(message);
                 return [2 /*return*/];
             case 5:
-                if (!message.content.startsWith(prefix + "pause")) return [3 /*break*/, 6];
-                Quim.pause(message);
+                if (!message.content.startsWith(prefix + "lyrics")) return [3 /*break*/, 6];
+                song = message.content.replace(prefix + "lyrics", "");
+                Quim.lyrics(message, song[0] === ' ' ? song.replace(" ", "") : 0, new LyriksClient());
                 return [2 /*return*/];
             case 6:
-                if (!message.content.startsWith(prefix + "resume")) return [3 /*break*/, 7];
-                Quim.resume(message);
+                if (!message.content.startsWith(prefix + "steal")) return [3 /*break*/, 7];
+                Quim.steal(message);
                 return [2 /*return*/];
             case 7:
-                if (!message.content.startsWith(prefix + "playlist")) return [3 /*break*/, 8];
-                Quim.playlist(message);
+                if (!message.content.startsWith(prefix + "replay")) return [3 /*break*/, 8];
+                Quim.replay(message);
                 return [2 /*return*/];
             case 8:
-                if (!message.content.startsWith(prefix + "comandos")) return [3 /*break*/, 9];
+                if (!message.content.startsWith(prefix + "shuffle")) return [3 /*break*/, 9];
+                Quim.shuffle(message);
+                return [2 /*return*/];
+            case 9:
+                if (!message.content.startsWith(prefix + "seek")) return [3 /*break*/, 10];
+                Quim.seek(message, message.content.split(" ")[1]);
+                return [2 /*return*/];
+            case 10:
+                if (!message.content.startsWith(prefix + "loopall")) return [3 /*break*/, 11];
+                Quim.loopall(message);
+                return [2 /*return*/];
+            case 11:
+                if (!message.content.startsWith(prefix + "loop")) return [3 /*break*/, 12];
+                Quim.loop(message);
+                return [2 /*return*/];
+            case 12:
+                if (!message.content.startsWith(prefix + "pause")) return [3 /*break*/, 13];
+                Quim.pause(message);
+                return [2 /*return*/];
+            case 13:
+                if (!message.content.startsWith(prefix + "resume")) return [3 /*break*/, 14];
+                Quim.resume(message);
+                return [2 /*return*/];
+            case 14:
+                if (!message.content.startsWith(prefix + "playlist")) return [3 /*break*/, 15];
+                page = message.content.replace(prefix + "playlist", "");
+                Quim.playlist(message, page[0] === ' ' ? page.replace(" ", "") : 1);
+                return [2 /*return*/];
+            case 15:
+                if (!message.content.startsWith(prefix + "skipto ")) return [3 /*break*/, 16];
+                song = message.content.replace(prefix + "skipto ", "");
+                Quim.skipto(message, song);
+                return [2 /*return*/];
+            case 16:
+                if (!(message.content === (prefix + "skip"))) return [3 /*break*/, 17];
+                Quim.skip(message);
+                return [2 /*return*/];
+            case 17:
+                if (!message.content.startsWith(prefix + "comandos")) return [3 /*break*/, 18];
                 section = message.content.split(" ")[1];
                 if ((section === "banco" || section === "casino" || section === "quim")) {
                     if (section === "banco") {
@@ -199,6 +241,16 @@ bot.on("message", function (message) { return __awaiter(_this, void 0, void 0, f
                                 inline: false
                             },
                             {
+                                name: '!playnext <nome|link>',
+                                value: 'Adicionar a música ao topo da playlist',
+                                inline: false
+                            },
+                            {
+                                name: '!playnow <nome|link>',
+                                value: 'Adicionar a música ao topo e começar a tocar',
+                                inline: false
+                            },
+                            {
                                 name: '!skip',
                                 value: 'Saltar a música atual',
                                 inline: false
@@ -224,27 +276,62 @@ bot.on("message", function (message) { return __awaiter(_this, void 0, void 0, f
                                 inline: false
                             },
                             {
-                                name: '!playlist',
-                                value: 'Ver a playlist atual do bot',
+                                name: '!playlist <página>',
+                                value: 'Ver a playlist atual do bot por página',
                                 inline: false
                             },
                             {
                                 name: '!loop',
+                                value: 'Música em auto-repeat ON/OFF',
+                                inline: false
+                            },
+                            {
+                                name: '!loopall',
                                 value: 'Playlist em auto-repeat ON/OFF',
+                                inline: false
+                            },
+                            {
+                                name: '!info',
+                                value: 'Mostra a informação da música a tocar',
+                                inline: false
+                            },
+                            {
+                                name: '!steal',
+                                value: 'DM do titulo da música',
+                                inline: false
+                            },
+                            {
+                                name: '!replay',
+                                value: 'Tocar a música atual do inicio',
+                                inline: false
+                            },
+                            {
+                                name: '!lyrics <nome>',
+                                value: 'Letra da música atual ou da especificada em <nome>',
+                                inline: false
+                            },
+                            {
+                                name: '!shuffle',
+                                value: 'Playlist shuffle',
+                                inline: false
+                            },
+                            {
+                                name: '!skipto <número>',
+                                value: 'Saltar para a música <número> da playlist',
                                 inline: false
                             }
                         ]);
                     }
                     return [2 /*return*/, message.channel.send(reply)];
                 }
-                return [3 /*break*/, 13];
-            case 9:
-                if (!message.content.startsWith(prefix + "jogos")) return [3 /*break*/, 12];
+                return [3 /*break*/, 22];
+            case 18:
+                if (!message.content.startsWith(prefix + "jogos")) return [3 /*break*/, 21];
                 return [4 /*yield*/, freestuff.getGameList("free")];
-            case 10:
+            case 19:
                 info = _a.sent();
                 return [4 /*yield*/, freestuff.getGameDetails(info, "info")];
-            case 11:
+            case 20:
                 games_1 = _a.sent();
                 info.forEach(function (id) {
                     var game = games_1[id];
@@ -279,7 +366,7 @@ bot.on("message", function (message) { return __awaiter(_this, void 0, void 0, f
                     .setColor("Random")
                     .addFields({ name: 'Os jogos estão no canal', value: "**<#" + channelID + ">**" });
                 return [2 /*return*/, message.channel.send(reply)];
-            case 12:
+            case 21:
                 if (message.content.startsWith(prefix + "b ")) {
                     Banco.execute(bot, message, message.content.replace(prefix + "b ", "").split(" "));
                     return [2 /*return*/];
@@ -290,8 +377,8 @@ bot.on("message", function (message) { return __awaiter(_this, void 0, void 0, f
                         .setDescription("Aprende os comandos com **!comandos <quim|banco|casino>**");
                     return [2 /*return*/, message.channel.send(reply)];
                 }
-                _a.label = 13;
-            case 13: return [2 /*return*/];
+                _a.label = 22;
+            case 22: return [2 /*return*/];
         }
     });
 }); });

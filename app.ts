@@ -10,6 +10,7 @@ bot.login(process.env.BOT_TOKEN);
 
 //Music bot
 const Quim = require("./comandos/Quim");
+const { LyriksClient } = require("lyriks.js")
 
 //Banking bot
 const BancoAPI = require("./comandos/Banco");
@@ -81,27 +82,59 @@ bot.on("message", async (message) => {
 
     Quim.play(message, song);
     return;
-  } else if (message.content.startsWith(`${prefix}skip`)) {
-    Quim.skip(message);
+  } else if (message.content.startsWith(`${prefix}playnext`)) {
+    var song = message.content.replace(`${prefix}playnext `, "");
+    Quim.playnext(message, song);
+    return;
+  } else if (message.content.startsWith(`${prefix}playnow`)) {
+    var song = message.content.replace(`${prefix}playnow `, "");
+    Quim.playnow(message, song);
     return;
   } else if (message.content.startsWith(`${prefix}stop`)) {
     Quim.stop(message);
     return;
+  } else if (message.content.startsWith(`${prefix}info`)) {
+    Quim.info(message);
+    return;
+  } else if (message.content.startsWith(`${prefix}lyrics`)) {
+    var song = message.content.replace(`${prefix}lyrics`, "");
+    Quim.lyrics(message,song[0]===' '?song.replace(` `, ""):0,new LyriksClient())
+    return;
+  } else if (message.content.startsWith(`${prefix}steal`)) {
+    Quim.steal(message);
+    return;
+  } else if (message.content.startsWith(`${prefix}replay`)) {
+    Quim.replay(message);
+    return;
+  } else if (message.content.startsWith(`${prefix}shuffle`)) {
+    Quim.shuffle(message);
+    return;
   } else if (message.content.startsWith(`${prefix}seek`)){
     Quim.seek(message,message.content.split(" ")[1])
+    return
+  } else if (message.content.startsWith(`${prefix}loopall`)){
+    Quim.loopall(message)
     return
   } else if (message.content.startsWith(`${prefix}loop`)){
     Quim.loop(message)
     return
-  }  else if (message.content.startsWith(`${prefix}pause`)){
+  } else if (message.content.startsWith(`${prefix}pause`)){
     Quim.pause(message)
     return
-  }  else if (message.content.startsWith(`${prefix}resume`)){
+  } else if (message.content.startsWith(`${prefix}resume`)){
     Quim.resume(message)
     return
   } else if (message.content.startsWith(`${prefix}playlist`)){
-    Quim.playlist(message)
+    var page = message.content.replace(`${prefix}playlist`, "");
+    Quim.playlist(message,page[0]===' '?page.replace(` `, ""):1)
     return
+  } else if (message.content.startsWith(`${prefix}skipto `)){
+    var song = message.content.replace(`${prefix}skipto `, "");
+    Quim.skipto(message,song)
+    return
+  } else if (message.content === (`${prefix}skip`)) {
+    Quim.skip(message);
+    return;
   }else if (message.content.startsWith(`${prefix}comandos`)) {
     var section = message.content.split(" ")[1];
     if((section==="banco"||section==="casino"||section==="quim")){
@@ -157,6 +190,16 @@ bot.on("message", async (message) => {
                                           inline: false
                                         },
                                         {
+                                          name: '!playnext <nome|link>',
+                                          value: 'Adicionar a música ao topo da playlist',
+                                          inline: false
+                                        },
+                                        {
+                                          name: '!playnow <nome|link>',
+                                          value: 'Adicionar a música ao topo e começar a tocar',
+                                          inline: false
+                                        },
+                                        {
                                           name: '!skip',
                                           value: 'Saltar a música atual',
                                           inline: false
@@ -182,13 +225,48 @@ bot.on("message", async (message) => {
                                           inline: false
                                         },
                                         {
-                                          name: '!playlist',
-                                          value: 'Ver a playlist atual do bot',
+                                          name: '!playlist <página>',
+                                          value: 'Ver a playlist atual do bot por página',
                                           inline: false
                                         },
                                         {
                                           name: '!loop',
+                                          value: 'Música em auto-repeat ON/OFF',
+                                          inline: false
+                                        },
+                                        {
+                                          name: '!loopall',
                                           value: 'Playlist em auto-repeat ON/OFF',
+                                          inline: false
+                                        },
+                                        {
+                                          name: '!info',
+                                          value: 'Mostra a informação da música a tocar',
+                                          inline: false
+                                        },
+                                        {
+                                          name: '!steal',
+                                          value: 'DM do titulo da música',
+                                          inline: false
+                                        },
+                                        {
+                                          name: '!replay',
+                                          value: 'Tocar a música atual do inicio',
+                                          inline: false
+                                        },
+                                        {
+                                          name: '!lyrics <nome>',
+                                          value: 'Letra da música atual ou da especificada em <nome>',
+                                          inline: false
+                                        },
+                                        {
+                                          name: '!shuffle',
+                                          value: 'Playlist shuffle',
+                                          inline: false
+                                        },
+                                        {
+                                          name: '!skipto <número>',
+                                          value: 'Saltar para a música <número> da playlist',
                                           inline: false
                                         }
                                       ])

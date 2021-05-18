@@ -17,6 +17,8 @@
     "dotenv": "^9.0.1",
     "express": "^4.17.1",
     "fs": "0.0.1-security",
+    "genius-lyrics-fetcher": "^2.1.0",
+    "lyriks.js": "^1.0.0",
     "mysql": "^2.18.1",
     "pg": "^8.6.0",
     "yt-search": "^2.8.0",
