@@ -1,1 +1,1 @@
-# Zé Tó discord bot
+# Zé Tó Discord Bot
