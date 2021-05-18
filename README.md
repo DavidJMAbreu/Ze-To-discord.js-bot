@@ -1,1 +1,1 @@
-# Ze-To-discord.js-bot
+# Zé Tó discord bot
