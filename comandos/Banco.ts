@@ -172,6 +172,16 @@ export class Banco {
     }
   }
 
+  private async createAccount(UserID){
+    await routes.createAccount(UserID);
+    return
+  }
+
+  private async closeAccount(UserID){
+    await routes.closeAccount(UserID);
+    return
+  }
+
   private async transfer(bot, message, id, amount) {
     var origin = message.author.id;
     var destination = bot.users.cache.find((u) => u.username === id).id;

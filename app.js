@@ -100,6 +100,12 @@ bot.on("ready", function () {
     console.log("Já entrei, não me peças para sair!");
     console.log("Nome: " + bot.user.username + "\nTag: " + bot.user.tag);
 });
+bot.on("guildMemberAdd", function (member) {
+    Banco.createAccount(member.id);
+});
+bot.on("guildMemberRemove", function (member) {
+    Banco.closeAccount(member.id);
+});
 bot.on("message", function (message) { return __awaiter(_this, void 0, void 0, function () {
     var song, song, song, song, page, song, section, reply, reply, info, games_1, channelID, reply, reply;
     return __generator(this, function (_a) {

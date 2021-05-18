@@ -114,3 +114,17 @@ module.exports.work = async function (UserID) {
     return { status: 200, data: money.toFixed(2) };
 }
 
+module.exports.createAccount = async function (UserID) {
+
+    await model.createAccount(UserID);
+
+    return;
+}
+
+module.exports.closeAccount = async function (UserID) {
+
+    await model.closeAccount(UserID);
+
+    return;
+}
+

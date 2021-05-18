@@ -150,3 +150,31 @@ module.exports.gotoWork = async function (UserID,money) {
         return { status: 500, data: err };
     }
 }
+
+module.exports.createAccount = async function (UserID) {
+    try {
+
+        let sql = "insert into bank(UserID, Money) values (?,'500')";
+        
+        let result = await pool.query(sql, [UserID]);
+        return { status: 200, data: result };
+    } catch (err) {
+        console.log(err);
+        return { status: 500, data: err };
+    }
+}
+
+module.exports.closeAccount = async function (UserID) {
+    try {
+
+        let sql = "DELETE FROM bank WHERE UserID = ?";
+        
+        let result = await pool.query(sql, [UserID]);
+        return { status: 200, data: result };
+    } catch (err) {
+        console.log(err);
+        return { status: 500, data: err };
+    }
+}
+
+

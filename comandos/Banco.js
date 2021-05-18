@@ -202,6 +202,30 @@ var Banco = /** @class */ (function () {
             });
         });
     };
+    Banco.prototype.createAccount = function (UserID) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, routes.createAccount(UserID)];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Banco.prototype.closeAccount = function (UserID) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, routes.closeAccount(UserID)];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
     Banco.prototype.transfer = function (bot, message, id, amount) {
         var amount;
         return __awaiter(this, void 0, void 0, function () {

@@ -69,6 +69,14 @@ bot.on("ready", () => {
   console.log(`Nome: ${bot.user.username}\nTag: ${bot.user.tag}`);
 });
 
+bot.on("guildMemberAdd", (member) => {
+  Banco.createAccount(member.id);
+});
+
+bot.on("guildMemberRemove", (member) => {
+  Banco.closeAccount(member.id);
+});
+
 bot.on("message", async (message) => {
   if (message.author.bot || !message.content.startsWith(prefix)) return;
   if (message.content === `${prefix}ping`) {
