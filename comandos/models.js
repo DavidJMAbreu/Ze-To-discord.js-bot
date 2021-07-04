@@ -154,7 +154,7 @@ module.exports.gotoWork = async function (UserID,money) {
 module.exports.createAccount = async function (UserID) {
     try {
 
-        let sql = "insert into bank(UserID, Money) values (?,'500')";
+        let sql = "insert into bank(UserID, Money) values (?,'635')";
         
         let result = await pool.query(sql, [UserID]);
         return { status: 200, data: result };
